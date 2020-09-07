@@ -36,6 +36,6 @@ var app = http.createServer(function (request, response) {
 </body>
 </html>
   `;
-  response.end(template.id);
+  response.end(template);
 });
 app.listen(3000);
