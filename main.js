@@ -66,3 +66,5 @@ var app = http.createServer(function (request, response) {
   }
 });
 app.listen(3000);
+
+// if stucked, go https://opentutorials.org/module/3549/21046 + https://nodejs.org/api/fs.html#fs_fs_readfile_path_options_callback (just for referencing purpose)
