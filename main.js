@@ -13,6 +13,15 @@ var app = http.createServer(function (request, response) {
         var title = "Welcome";
         var description = "Hello, Node.js";
         var list = "<ul>";
+        /*  <ul>
+        <li><a href="/?id=HTML">HTML</a></li>
+        <li><a href="/?id=CSS">CSS</a></li>
+        <li><a href="/?id=JavaScript">JavaScript</a></li>
+      </ul>";
+*/
+
+        var list = "<ul>";
+
         var i = 0;
         while (i < filelist.length) {
           list =
