@@ -30,11 +30,7 @@ var app = http.createServer(function (request, response) {
           </head>
           <body>
             <h1><a href="/">WEB</a></h1>
-            <ul>
-              <li><a href="/?id=HTML">HTML</a></li>
-              <li><a href="/?id=CSS">CSS</a></li>
-              <li><a href="/?id=JavaScript">JavaScript</a></li>
-            </ul>
+            ${list}
             <h2>${title}</h2>
             <p>${description}</p>
           </body>
