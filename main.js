@@ -62,7 +62,12 @@ var app = http.createServer(function (request, response) {
             title,
             list,
             `<h2>${title}</h2>${description}`,
-            `<a href="/create">create</a> <a href="/update?id=${title}">update</a>`
+            `<a href="/create">create</a> 
+            <a href="/update?id=${title}">update</a>
+            <form action = "delete_process" method="post" >
+            <input type="hidden" name="id" value="${title}">
+            <input type="submit" value="delete"></input>
+            </form>`
           );
           response.writeHead(200);
           response.end(template);
@@ -116,8 +121,8 @@ var app = http.createServer(function (request, response) {
           list,
           `
             <form action="/update_process" method="post">
-              <input type="hidden" name="id" value="${title}">
-              <p><input type="text" name="title" placeholder="title" value="${title}"></p>
+            <input type = "hidden"  name="id" value = "${title}">
+            <p><input type="text" name="title" placeholder="title" value="${title}"></p>
               <p>
                 <textarea name="description" placeholder="description">${description}</textarea>
               </p>
@@ -130,6 +135,38 @@ var app = http.createServer(function (request, response) {
         );
         response.writeHead(200);
         response.end(template);
+      });
+    });
+  } else if (pathname === "/update_process") {
+    var body = "";
+    request.on("data", function (data) {
+      body = body + data;
+    });
+    request.on("end", function () {
+      var post = qs.parse(body);
+      var id = post.id;
+      var title = post.title;
+      var description = post.description;
+      fs.rename(`data/${id}`, `data/${title}`, function (error) {
+        fs.writeFile(`data/${title}`, description, "utf8", function (err) {
+          response.writeHead(302, { Location: `/?id=${title}` });
+          response.end();
+        });
+      });
+    });
+  } else if (pathname === "/delete_process") {
+    var body = "";
+    request.on("data", function (data) {
+      body = body + data;
+    });
+    request.on("end", function () {
+      var post = qs.parse(body);
+      var id = post.id;
+      fs.unlink(`data/${id}`, function (error) {
+        //function (error) 가 callback 함수(즉, function. 여기엔 아무이름 가능. 일종의 실행을 위한 그룹.). //
+        // error 뜨면, main으로 가게 한 콜백함수. 아래 나머지 2줄대로.)//
+        response.writeHead(302, { Location: `/` });
+        response.end();
       });
     });
   } else {
